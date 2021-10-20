@@ -1,6 +1,7 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
+
 const headers = {
     "content-type": "application/json",
     Accept: "application/json",
@@ -25,7 +26,7 @@ export const loadTodos = createAsyncThunk('todos/loadTodos', async () => {
         const todos = res.data?.todos;
         return todos;
     } catch (error) {
-        throw 'error loading data';
+        throw Error('error loading data');
     }
 });
 

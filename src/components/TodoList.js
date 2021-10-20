@@ -29,9 +29,9 @@ const useStyles = makeStyles({
     maxWidth: "600px",
     width: "90%",
     margin: "0 auto",
-    zIndex: "-100",
+    zIndex: -100,
     paddingBottom: "75px",
-    marginTop: 30, zIndex: -100
+    marginTop: 30,
   },
   progressContainer: {
     height: "100%",
