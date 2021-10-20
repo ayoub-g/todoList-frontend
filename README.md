@@ -13,7 +13,7 @@
     <a href="https://github.com/ayoub-g/todoList-frontend"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://apps.ayoubgharbi.com/todo">View Demo</a>
+    <a href="https://apps.ayoubgharbi.com/todolist">View Demo</a>
     ·
     <a href="https://github.com/ayoub-g/todoList-frontend/issues">Report Bug</a>
     ·
