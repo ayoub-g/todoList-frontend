@@ -1,70 +1,178 @@
-# Getting Started with Create React App
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/ayoub-g/todoList-frontend.git">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Todo App</h3>
 
-## Available Scripts
+  <p align="center">
+    A basic and awesome todo app, built with React, Redux, RTK, Node, GraphQl and more 🥳
+    <br />
+    <a href="https://github.com/ayoub-g/todoList-frontend"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://apps.ayoubgharbi.com/todo">View Demo</a>
+    ·
+    <a href="https://github.com/ayoub-g/todoList-frontend/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/ayoub-g/todoList-frontendissues">Request Feature</a>
+  </p>
+</p>
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#description">Description</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
 
-In the project directory, you can run:
+  </ol>
+</details>
 
-### `yarn start`
+## Description
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<p align="center"><img src="images/screenshot.png"/></p>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Todo is a basic todo app with a sleek interface, you can add and remove tasks, no task update for this version 🙁 through this app you will learn a lot:
 
-### `yarn test`
+- How to use css-in-js in react with the latest material version
+- How manage app global state with redux and RTK
+- How to seperate side effect logic from components
+- How asynchronous functions can communicate with redux using redux-thunk
+- How to improve app performance with selectors
+- How to write clean and maintainable code
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Built with
 
-### `yarn build`
+**Frontend:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [React](https://reactjs.org)
+- [Redux](https://redux.js.org/)
+- [RTK](https://redux-toolkit.js.org/rtk-query/overview)
+- [Reselect](https://github.com/reduxjs/reselect#readme)
+  #### Reselect is a selector library for redux, it improves code performance by computing selectors only when input data changes
+- [Material ui](https://material-ui.com/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Backend:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [node.js](https://nodejs.dev)
+- [express.js](https://expressjs.com)
+- [graphql](https://graphql.org)
+- [sequelize](https://sequelize.org)
+- [postgres](https://www.postgresql.org)
 
-### `yarn eject`
+<!-- GETTING STARTED -->
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Getting Started
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+##### To use this project you need to install npm and postgres
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Installation
 
-## Learn More
+1. clone the front-end repository (this repository)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```sh
+git clone https://github.com/ayoub-g/todoList-frontend.git
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. clone the backend repository
 
-### Code Splitting
+```sh
+git clone https://github.com/ayoub-g/todo-server
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. cd to todo-server
+```sh
+cd todo-server
+```
 
-### Analyzing the Bundle Size
+4. install npm dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```sh
+npm install
+```
 
-### Making a Progressive Web App
+5. configure the database for local environment :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+set environment variable to local 
 
-### Advanced Configuration
+go to the file `data/getConnectionString.js` and create a postgres user and a database with the configuration described in the file or update it with your own configuration
+```js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+const getConnectionString = async () => (
+  stage === 'local' ?
+    {
+      host: 'localhost',
+      database: 'todoapp',
+      port: '5432',
+      username: 'testuser',
+      password: 'HbdEvgmtGUc98T',
+    } : await getRemoteConfig());
+```
 
-### Deployment
+5. start the server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```sh
+npm start
+```
 
-### `yarn build` fails to minify
+if everything is ok, you should see in the terminal that the server is running on port 3001, and sequelize has created the todos table.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+6. now it's time to configure the frontend, cd to the front-end repository
+
+```sh
+cd ../todoList-frontend
+```
+
+7. install npm dependencies
+
+```sh
+npm install
+```
+
+1.  run the project, this will run the dev server at port 3000
+
+```sh
+npm start
+```
+
+12. open a new tab at http://localhost:3000
+
+<!-- LICENSE -->
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information
+
+<!-- CONTACT -->
+
+## Contact
+
+Ayoub Gharbi - [@AyyoubGharbi](https://twitter.com/AyyoubGharbi) - gharbi.ayoub@gmail.com
+
+Project Link: [https://github.com/ayoub-g/todoList-frontend](https://github.com/ayoub-g/todoList-frontend)
+
+<!-- ACKNOWLEDGEMENTS -->
+
+## Acknowledgements
+
+Project icon
+
+<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
