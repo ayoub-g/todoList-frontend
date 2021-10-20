@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import todosReducer from './todosSlice'
-import styleReducer from './styleSlice'
 export default configureStore(
     {
-        reducer: { todos: todosReducer, style: styleReducer },
+        reducer: { todos: todosReducer },
         middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
         devTools: true
     })

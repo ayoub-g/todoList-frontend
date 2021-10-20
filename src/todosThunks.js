@@ -1,6 +1,6 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit"
-const API_URL = "http://localhost:3001/graphql";
+const API_URL = process.env.API_URL;
 const headers = {
     "content-type": "application/json",
     Accept: "application/json",
@@ -21,11 +21,11 @@ export const loadTodos = createAsyncThunk('todos/loadTodos', async () => {
                 query,
             }),
         });
-
-        const todos = (await response.json()).data?.todos;
+        const res = await response.json();
+        const todos = res.data?.todos;
         return todos;
     } catch (error) {
-        return error;
+        throw 'error loading data';
     }
 });
 

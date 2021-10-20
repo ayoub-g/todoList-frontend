@@ -23,21 +23,26 @@ const useStyles = makeStyles({
     justifyContent: "flex-start",
     alignItems: "center",
     marginLeft: ".5em",
+    marginBottom: 0,
+    marginTop: 20,
   },
 });
 const CustomIconButton = withStyles({
   root: {
+
     boxShadow: "none",
+    marginBottom: 0,
+    paddingBottom: 0,
     "&:hover": {
       boxShadow: "none",
       backgroundColor: "transparent",
+
     },
   },
 })(IconButton);
 
 
 const CompletedTodos = () => {
-
 
   const getCompletedTodos = useSelector(state => selectCompletedTodos(state));
   const classes = useStyles();

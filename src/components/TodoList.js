@@ -31,6 +31,7 @@ const useStyles = makeStyles({
     margin: "0 auto",
     zIndex: "-100",
     paddingBottom: "75px",
+    marginTop: 30, zIndex: -100
   },
   progressContainer: {
     height: "100%",
@@ -56,26 +57,20 @@ const TodoList = () => {
   }, [dispatch]);
 
   // loading component, renders while todos are loading from server
-  const renderLoading = (
-    <Box className={classes.progressContainer}>
-      <CircularProgress />
-    </Box>
-  );
+  const renderLoading = <Box className={classes.progressContainer}>
+    <CircularProgress />
+  </Box>
 
-  const renderContent = () => {
-    return (
-      <Box className={classes.box}>
-        {incompletedTodos.length > 0 ? (
-          <IncompletedTodos incompletedTodos={incompletedTodos} />
-        ) : null}
-        {completedTodos.length > 0 ? (
-          <CompletedTodos completedTodos={completedTodos} />
-        ) : null}
-      </Box>
-    );
-  };
-  // render loading component while todos are loading else load Todos
-  return isLoading ? renderLoading : renderContent();
+  const renderContent = <Box className={classes.box}>
+    {incompletedTodos.length > 0 ? (
+      <IncompletedTodos incompletedTodos={incompletedTodos} />
+    ) : null}
+    {completedTodos.length > 0 ? (
+      <CompletedTodos completedTodos={completedTodos} />
+    ) : null}
+  </Box>
+
+  return isLoading ? renderLoading : renderContent;
 };
 
 /* connect this component to redux */

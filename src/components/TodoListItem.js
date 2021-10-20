@@ -1,11 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { IconButton, Typography, Card, Checkbox, Grow } from "@mui/material";
 import { RemoveCircle, RadioButtonUnchecked, CheckCircle } from "@mui/icons-material";
-import { makeStyles, withStyles } from "@mui/styles";
-
-import { selectIsDarkMode } from "../styleSlice.js";
+import { makeStyles } from "@mui/styles";
 import { removeTodo, updateTodoStatus } from "../todosThunks.js";
 
 const useStyles = makeStyles({
@@ -29,33 +27,25 @@ const useStyles = makeStyles({
     fontSize: "min(4.1vw,1.5em)",
     width: "84%",
   },
-
   check: {
-    width: "11%",
-    height: "8%",
+    width: "20px",
+    height: "5px",
     textAlign: "left",
   },
 });
 
 const TodoListItem = ({ todo, expandTasks }) => {
-  const darkMode = useSelector(state => selectIsDarkMode(state));
   const classes = useStyles();
   const dispatch = useDispatch();
-  const Checked = withStyles({
-    root: {
-      color: darkMode ? "#dbe6fd" : "#225254",
-    },
-  })(CheckCircle);
   return (
     <Grow in={expandTasks} style={{ transformOrigin: "top left" }}>
       <Card className={classes.todoItem}>
         <Checkbox
           color="primary"
-          className={`${classes.check}`}
           checked={todo.isCompleted}
           onChange={() => dispatch(updateTodoStatus({ id: todo.id, isCompleted: !todo.isCompleted }))}
           icon={<RadioButtonUnchecked />}
-          checkedIcon={<Checked />}
+          checkedIcon={<CheckCircle />}
         />
         <Typography
           className={`${todo.isCompleted ? classes.barred : classes.normal} ${classes.itemSize
@@ -64,8 +54,7 @@ const TodoListItem = ({ todo, expandTasks }) => {
           {todo.content}
         </Typography>
         <IconButton
-          className={classes.check}
-          color="secondary"
+          color="error"
           onClick={() => dispatch(removeTodo(todo.id))}
         >
           <RemoveCircle />

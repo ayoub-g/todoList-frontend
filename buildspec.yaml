@@ -1,0 +1,31 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "installing node.js"
+      - apt -y update
+      - apt -y upgrade
+      - apt install curl
+      - curl --version
+      - apt -y install nodejs
+      - echo "installing yarn..."
+      - curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+      - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+      - apt update
+      - apt install --no-install-recommends yarn
+      - echo "install phase successfully completed"
+  pre_build:
+    commands:
+      - echo "installing dependencies..."
+      - yarn
+      - echo "pre build phase successfully completed"
+  build:
+    commands:
+      - echo "building project"
+      - npm run build
+      - echo "build phase successfully completed"
+artifacts:
+  files:
+    - "**/*"
+  discard_paths: no
+  base-directory: ./build

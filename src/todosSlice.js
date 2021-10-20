@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createSelector } from "reselect";
 import { createTodo, loadTodos, removeTodo, updateTodoStatus } from "./todosThunks";
-const initialState = { data: [], isLoading: false }
+const initialState = { data: [], isLoading: false, loadingError: false }
 
 const todosSlice = createSlice({
     name: 'todos',
@@ -11,10 +11,10 @@ const todosSlice = createSlice({
         builder
             .addCase(loadTodos.pending, (state) => { state.isLoading = true })
             .addCase(loadTodos.fulfilled, (state, action) => {
-                state.data = action.payload; state.isLoading = false
+                state.data = Array.isArray(action.payload) ? action.payload : [];
+                state.isLoading = false
             })
-            .addCase(loadTodos.rejected, (state) => { state.isLoading = false })
-
+            .addCase(loadTodos.rejected, (state) => { state.loadingError = true; state.isLoading = false })
             .addCase(createTodo.fulfilled, (state, action) => { state.data.push(action.payload) })
             .addCase(updateTodoStatus.fulfilled, (state, action) => {
 
@@ -41,5 +41,6 @@ export const selectIncompletedTodos = createSelector(selectTodos, (todos) =>
 export const selectCompletedTodos = createSelector(selectTodos, (todos) =>
     todos.filter((todo) => todo.isCompleted)
 );
+export const selectLoadingError = (state) => state.todos.loadingError;
 
 export default todosSlice.reducer;

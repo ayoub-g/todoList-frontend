@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-
-import { AppBar, Toolbar, Box, Card, Button, IconButton, Switch, CssBaseline } from "@mui/material";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { AppBar, Toolbar, Box, Card, IconButton, CssBaseline } from "@mui/material";
 import { AddCircleRounded } from "@mui/icons-material";
-import { makeStyles, withStyles, ThemeProvider } from "@mui/styles";
-
-import { switchTheme, selectIsDarkMode } from "./styleSlice";
-import { lightThemeColor, themeOrangeDark, themeOrangeLight } from "./themes";
+import { makeStyles } from "@mui/styles";
 
 import TodoList from "./components/TodoList";
 import NewTodoForm from "./components/NewTodoForm";
+import { selectLoadingError } from "./todosSlice";
 
 const useStyles = makeStyles({
-  main: { height: '100vh', width: '100vw', position: 'relative' },
-  box: { background: lightThemeColor },
+  mainFlex: {
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center'
+  },
+  main: {
+    height: '100vh',
+    width: '100vw'
+  },
   content: { marginTop: "45px", paddingTop: "15px" },
-  contentBackground: { background: lightThemeColor },
   tasksLabel: { fontSize: "2.1em" },
+
   items: {
     display: "flex",
     flexDirection: "row",
@@ -25,7 +32,8 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     width: "100%",
   },
-  switch: { display: "flex", flexDirection: "row", alignItems: "center" },
+  newTodoFormCard: { display: 'flex', flexDirection: 'row', justifyContent: 'center' },
+
   appBarFlat: { boxShadow: "none" },
 
   addTaskButton: {
@@ -33,77 +41,61 @@ const useStyles = makeStyles({
     bottom: "1vh",
     right: "1vw",
     zIndex: 999,
+  }, error: {
+    textAlign: 'center', fontWeight: 'bold'
+  }
+});
+const useStylesIcon = makeStyles({
+  root: {
+    color: 'blue', fontSize: '2em !important'
   },
 });
-const AddTaskIcon = withStyles({
-  root: {
-    fontSize: "min(14vw, 3.5em)",
-  },
-})(AddCircleRounded);
 const App = () => {
 
   const [showAddTodoForm, setShowAddTodoForm] = useState(false);
-  const darkMode = useSelector(state => selectIsDarkMode(state));
-  const dispatch = useDispatch();
-
+  const iconClasses = useStylesIcon();
   const classes = useStyles();
-
-  useEffect(() => {
-    /* set theme color to the body if we're using the light theme */
-    document.body.style = darkMode
-      ? (document.body.style = `background:'none';`)
-      : `background: ${lightThemeColor};`;
-  });
+  const loadingError = useSelector(state => selectLoadingError(state))
+  const renderLoadingError = <Box className={classes.error}> Error while loading Todos</Box>
   const renderAddTodoForm = (
-    <Card>
+    <Card className={classes.newTodoFormCard}>
       <NewTodoForm
         showAddTodoForm={showAddTodoForm}
         setShowAddTodoForm={setShowAddTodoForm}
       />
-    </Card>
+    </Card >
   );
 
-  return (
-    <ThemeProvider theme={darkMode ? themeOrangeDark : themeOrangeLight}>
-      <CssBaseline />
+  return (<React.Fragment>
+    <CssBaseline />
+
+    <Box className={loadingError ? classes.mainFlex : classes.main}>
+      <Box className={classes.content}>
+        {loadingError ? renderLoadingError : <TodoList />}
+      </Box>
       {
-        /* hides Add button when todoform is displayed */
         showAddTodoForm ? null : (
           <IconButton
             className={classes.addTaskButton}
             onClick={() => setShowAddTodoForm(true)}
           >
-            <AddTaskIcon />
+            <AddCircleRounded className={iconClasses.root} />
           </IconButton>
         )
       }
-      <Box>
-        <AppBar position="fixed" className={classes.appBarFlat}>
-          <Toolbar>
-            <Box className={classes.items}>
-              <Box fontWeight="fontWeightBold" className={classes.tasksLabel}>
-                Tasks
-              </Box>
-              <Box className={classes.switch} fontWeight="fontWeightBold">
-                <Box fontWeight="fontWeightBold">Dark Mode</Box>
-                <Switch
-                  color="default"
-                  checked={darkMode}
-                  onChange={(event) => dispatch(switchTheme(event.target.checked))}
-                />
-              </Box>
+      <AppBar position="fixed" className={classes.appBarFlat}>
+        <Toolbar>
+          <Box className={classes.items}>
+            <Box fontWeight="fontWeightBold" className={classes.tasksLabel}>
+              Tasks
             </Box>
-          </Toolbar>
-        </AppBar>
-        <Box
-          className={`${classes.content} ${darkMode ? null : classes.contentBackground
-            }`}
-        >
-          <TodoList />
-        </Box>
-        {showAddTodoForm ? renderAddTodoForm : null}
-      </Box>
-    </ThemeProvider >
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      {showAddTodoForm ? renderAddTodoForm : null}
+    </Box>
+  </React.Fragment>
   );
 };
 

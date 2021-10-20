@@ -1,36 +1,35 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { Button, TextField, IconButton, Box } from "@mui/material";
+import { Button, TextField, IconButton, Box, useMediaQuery } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Add, Close } from "@mui/icons-material";
 
 import { createTodo } from "../todosThunks";
-import { selectIsDarkMode } from "../styleSlice";
 const useStyles = makeStyles({
   todoForm: {
-    position: "absolute",
+    position: "fixed",
     padding: "1em",
     bottom: 0,
-    width: "100%",
-    border: "solid 1px gray",
+    background: 'white',
+
   },
+  smForm: { width: 500 },
+  xsForm: { width: "100%" },
+
   btnContainer: {
     justifyContent: "center",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
   },
-  textField: { width: "100%" },
-  textFieldDarkColor: { color: "white" },
-  textFieldLightColor: { color: "black" },
+  textField: { width: "100%", background: 'white' },
 });
 
-const NewTodoForm = ({
-  showAddTodoForm,
-  setShowAddTodoForm }) => {
-  const darkMode = useSelector(state => selectIsDarkMode(state));
+const NewTodoForm = ({ setShowAddTodoForm }) => {
+
+  const matchesMedium = useMediaQuery("(min-width:768px)");
+
   const classes = useStyles();
 
   // flag to update render when the user clicks on  CreateTodo Button
@@ -40,47 +39,39 @@ const NewTodoForm = ({
     setTodoContent(e.target.value);
   };
 
-  const textFieldColorClass = darkMode
-    ? classes.textFieldDarkColor
-    : classes.textFieldLightColor;
-  const renderTextField = () => {
-    return (
-      <Box className={classes.todoForm}>
-        <TextField
-          className={classes.textField}
-          type="text"
-          multiline
-          value={todoContent}
-          rows={4}
-          onChange={handleNewTodoChange}
-          autoFocus
-          InputProps={{ className: textFieldColorClass }}
-        />
-        <Box className={`${classes.btnContainer}`}>
-          <Button
-            className={classes.btn}
-            onClick={() => {
-              if (todoContent.trim().length > 0) {
-                dispatch(createTodo(todoContent));
-                setTodoContent("");
-              }
-            }}
-            startIcon={<Add />}
-          >
-            Ajouter Todo
-          </Button>
-          <IconButton
-            onClick={() => setShowAddTodoForm(false)}
-            aria-label="close"
-          >
-            <Close />
-          </IconButton>
-        </Box>
+  return (
+    <Box className={`${classes.todoForm}  ${matchesMedium ? classes.smForm : classes.xsForm}`}>
+      <TextField
+        className={classes.textField}
+        type="text"
+        multiline
+        value={todoContent}
+        rows={4}
+        onChange={handleNewTodoChange}
+        autoFocus
+      />
+      <Box className={`${classes.btnContainer}`}>
+        <Button
+          className={classes.btn}
+          onClick={() => {
+            if (todoContent.trim().length > 0) {
+              dispatch(createTodo(todoContent));
+              setTodoContent("");
+            }
+          }}
+          startIcon={<Add />}
+        >
+          Ajouter Todo
+        </Button>
+        <IconButton
+          onClick={() => setShowAddTodoForm(false)}
+          aria-label="close"
+        >
+          <Close />
+        </IconButton>
       </Box>
-    );
-  };
-  if (showAddTodoForm) {
-    return renderTextField();
-  }
+    </Box>
+  );
 };
+
 export default NewTodoForm;
